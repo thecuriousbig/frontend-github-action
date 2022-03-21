@@ -14,9 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.label.name == 'ready to test'
     steps:
-      - name: checkout github
-        uses: actions/checkout@v3
-      - uses: ./.github.workflows/run-test.yml
+      - uses: ./.github/workflows/run-test.yml
         with:
           call_from: labeled
       
