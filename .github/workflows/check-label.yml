@@ -25,7 +25,7 @@ jobs:
           ref: $BASE_REF
       - run: echo $BASE_REF
       - name: call run-test workflows
-        uses: '$REPO_NAME/.github.workflows/$TEST_WORKFLOW@$BASE_REF'
+        uses: '$REPO_NAME/.github/workflows/$TEST_WORKFLOW@$BASE_REF'
         with:
           call_from: labeled
 
