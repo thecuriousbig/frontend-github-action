@@ -16,7 +16,7 @@ jobs:
   ready-to-test-labeled:
     name: 'check ready_to_test label'
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'ready to test'
+    # if: github.event.label.name == 'ready to test'
     steps:
       - name: checkout github
         uses: actions/checkout@v3
