@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: checkout github
         uses: actions/checkout@v3
-      - run: echo 'pwd'
+      - run: ls -R
       - name: call run-test workflows
         uses: ./.github/workflows/run-test.yml
         with:
