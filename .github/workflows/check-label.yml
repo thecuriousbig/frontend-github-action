@@ -22,7 +22,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - run: echo ${{ github.event.pull_request.base.ref }}
       - name: call run-test workflows
-        uses: '${{ github.repository }}/$TEST_WORKFLOW_PATH@${{ github.event.pull_request.base.ref }}'
+        uses: '${{ github.event.repository.fullname }}/$TEST_WORKFLOW_PATH@${{ github.event.pull_request.base.ref }}'
         with:
           call_from: labeled
 
