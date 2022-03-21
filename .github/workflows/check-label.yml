@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: checkout github
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - run: echo ${{ github.event.pull_request.head.ref }}
       - name: call run-test workflows
         uses: ./.github/workflows/run-test.yml
         with:
