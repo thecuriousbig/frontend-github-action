@@ -12,6 +12,8 @@ jobs:
   ready-to-test-labeled:
     name: 'check ready_to_test label'
     runs-on: ubuntu-latest
+    env:
+      TEST_WORKFLOWS_PATH: '.github/workflows/run-test.yml'
     if: github.event.label.name == 'ready to test'
     steps:
       - run: ${{ toJSON( github.event ) }}
@@ -21,7 +23,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - run: echo ${{ github.event.pull_request.base.ref }}
       - name: call run-test workflows
-        uses: ./.github/workflows/run-test.yml
+        uses: '${{ github.repository }}/$TEST_WORKFLOW_PATH@${{ github.event.pull_request.base.ref }}'
         with:
           call_from: labeled
 
