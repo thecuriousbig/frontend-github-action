@@ -1,6 +1,12 @@
 name: 'run test'
 
 on:
+  pull_request_target:
+    branches:
+      - main
+      - dev
+    types:
+      - opened
   workflow_call:
     inputs:
       call_from:
