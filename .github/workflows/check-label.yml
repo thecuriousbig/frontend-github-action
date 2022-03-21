@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: checkout github
         uses: actions/checkout@v3
-        with:
-          ref: $BASE_REF
       - name: call run-test workflows
         uses: ./.github/workflows/run-test.yml
         with:
