@@ -16,7 +16,6 @@ jobs:
       TEST_WORKFLOWS_PATH: '.github/workflows/run-test.yml'
     if: github.event.label.name == 'ready to test'
     steps:
-      - run: ${{ toJSON( github.event ) }}
       - name: checkout github
         uses: actions/checkout@v3
         with:
