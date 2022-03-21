@@ -1,0 +1,16 @@
+name: 'ready to test'
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+    types:
+      - labeled
+
+jobs:
+  run-test-workflow:
+    name: 'run test workflow'
+    if: github.event.label.name == 'ready to test'
+    uses: ./.github/workflows/run-test.yml
+      
