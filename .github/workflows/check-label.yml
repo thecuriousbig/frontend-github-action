@@ -16,7 +16,8 @@ jobs:
     steps:
       - name: checkout github
         uses: actions/checkout@v3
-      - uses: ./.github/workflows/run-test.yml
+      - name: call run-test workflows
+        uses: ./.github/workflows/run-test.yml
         with:
           call_from: labeled
 
