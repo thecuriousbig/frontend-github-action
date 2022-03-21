@@ -8,6 +8,11 @@ on:
     types:
       - labeled
 
+env:
+  REPO_NAME: ${{ github.repository }}
+  BASE_REF: ${{ github.event.pull_request.base.ref }}
+  TEST_WORKFLOW: run-test.yml
+
 jobs:
   ready-to-test-labeled:
     name: 'check ready_to_test label'
@@ -17,9 +22,10 @@ jobs:
       - name: checkout github
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
+          ref: $BASE_REF
+      - run: echo $BASE_REF
       - name: call run-test workflows
-        uses: ./.github/workflows/run-test.yml
+        uses: '$REPO_NAME/.github/workflows/$TEST_WORKFLOW@$BASE_REF'
         with:
           call_from: labeled
 
