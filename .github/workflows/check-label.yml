@@ -1,0 +1,23 @@
+name: 'Check PR labeled'
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+    types:
+      - labeled
+
+jobs:
+  ready_to_test_labeled:
+    name: 'check ready_to_test label'
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'ready to test'
+    steps:
+      - uses: ./.github.workflows/run-test.yml
+        with:
+          call_from: labeled
+      
+    
+    
+  
