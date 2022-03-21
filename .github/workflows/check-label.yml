@@ -15,18 +15,9 @@ env:
 jobs:
   ready-to-test-labeled:
     name: 'check ready_to_test label'
-    runs-on: ubuntu-latest
-    # if: github.event.label.name == 'ready to test'
-    steps:
-      - name: checkout github
-        uses: actions/checkout@v3
-        with:
-          ref: main
-      - run: ls -laR
-      - name: call run-test workflows
-        uses: ./.github/workflows/run-test.yml
-        with:
-          call_from: labeled
+    uses: ./.github/workflows/run-test.yml
+    with:
+      call_from: labeled
 
   remove-label:
     runs-on: ubuntu-latest
