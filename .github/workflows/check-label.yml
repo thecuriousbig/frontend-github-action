@@ -23,6 +23,8 @@ jobs:
     needs: ready-to-test-labeled
     if: always()
     steps:
+      - name: checkout github
+        uses: actions/checkout@v3
       - name: remove ready-to-test label
         uses: actions-ecosystem/action-remove-labels@v1
         with:
