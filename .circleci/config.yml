@@ -38,7 +38,10 @@ jobs:
     executor: fermium-alpine
     steps:
       - checkout
-      - run: echo "<<pipeline.parameters>>"
+      - run: echo "<<pipeline.parameters.GHA_Event>>"
+      - run: echo "<<pipeline.parameters.GHA_Action>>"
+      - run: echo "<<pipeline.parameters.GHA_Actor>>"
+      - run: echo "<<pipeline.parameters.GHA_Meta>>"
       - node/install-packages
       - run:
           name: run unit test
