@@ -52,6 +52,7 @@ jobs:
 
 workflows:
   test:
-    when: << pipeline.parameters.GHA_Action >>
+    when:
+      equal: ["test", <<pipeline.parameters.GHA_Meta>>]
     jobs:
       - test

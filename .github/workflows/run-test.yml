@@ -29,6 +29,8 @@ jobs:
       - name: test on circleci
         id: test-circleci
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.4
+        with:
+          GHA_Meta: test
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
 
