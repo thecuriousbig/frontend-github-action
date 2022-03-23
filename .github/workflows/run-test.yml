@@ -26,25 +26,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout github
-        uses: actions/checkout@v3
-      - name: setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: install dependencies
-        run: npm install
-      - name: run test [ci mode]
-        id: ci-test
-        run: npm run test
+      - name: test on circleci
+        id: test-circleci
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.4
         env:
-          CI: true
+          CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
 
-  test-result:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: add test's result label
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: 'test ${{ needs.test.result }}'
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout github
+  #       uses: actions/checkout@v3
+  #     - name: setup node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '14'
+  #     - name: install dependencies
+  #       run: npm install
+  #     - name: run test [ci mode]
+  #       id: ci-test
+  #       run: npm run test
+  #       env:
+  #         CI: true
+
+  # test-result:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: add test's result label
+  #       uses: actions-ecosystem/action-add-labels@v1
+  #       with:
+  #         labels: 'test ${{ needs.test.result }}'
