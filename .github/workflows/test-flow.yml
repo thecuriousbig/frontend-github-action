@@ -63,5 +63,5 @@ jobs:
             **[$SHA]** test report
             | branch  | sha  | actions   | status  |
             |---------|------|-----------|---------|
-            | $BRANCH | $SHA | unit test | $STATUS |
+            | ${{ env.BRANCH }} | ${{ env.SHA }} | unit test | ${{ env.STATUS }} |
           reactions: ${{ needs.test.result == 'success' && 'eggplant, sweat_drops' || 'shit, clown_face' }}
