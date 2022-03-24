@@ -54,14 +54,14 @@ jobs:
       - name: comment test's result
         uses: peter-evans/create-or-update-comment@v2
         env:
-          branch: ${{ github.event.pull_request.head.ref }}
-          sha: ${{ github.event.pull_request.head.sha }}
-          status: ${{ needs.test.result == 'success' && ':white_check_mark::eggplant::sweat_drops:**passed**' || ':boom::shit::clown_face:**failed**' }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          STATUS: ${{ needs.test.result == 'success' && :white_check_mark::eggplant::sweat_drops:**passed** || :boom::shit::clown_face:**failed** }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            **[${{ github.event.pull_request.head.sha}}]** test report
+            **[$SHA]** test report
             | branch  | sha  | actions   | status  |
             |---------|------|-----------|---------|
-            | $branch | $sha | unit test | $status |
+            | $BRANCH | $SHA | unit test | $STATUS |
           reactions: ${{ needs.test.result == 'success' && 'eggplant, sweat_drops' || 'shit, clown_face' }}
