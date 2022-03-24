@@ -60,7 +60,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            **[$SHA]** test report
+            **[${{env.SHA}}]** test report
             | branch  | sha  | actions   | status  |
             |---------|------|-----------|---------|
             | ${{ env.BRANCH }} | ${{ env.SHA }} | unit test | ${{ env.STATUS }} |
