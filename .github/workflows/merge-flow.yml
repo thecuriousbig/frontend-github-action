@@ -1,17 +1,15 @@
-name: 'run test'
+name: 'merge flow'
 
 on:
-  pull_request_target:
-    branches:
-      - main
-      - dev
-    types:
-      - opened
-      - reopened
   workflow_call:
+    inputs:
+      target-branch:
+        required: true
+        type: string
 
 jobs:
   remove-previous-labeled:
+    name: 'remove previous labeled'
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -24,6 +22,7 @@ jobs:
             'test failure'
 
   test:
+    name: 'run test'
     runs-on: ubuntu-latest
     steps:
       - name: checkout github
@@ -40,7 +39,8 @@ jobs:
         env:
           CI: true
 
-  test-result:
+  label-test-result:
+    name: 'label test result'
     runs-on: ubuntu-latest
     needs: test
     steps:

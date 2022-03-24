@@ -1,4 +1,4 @@
-name: trigger circleci
+name: 'trigger circleci'
 
 on:
   workflow_call:
