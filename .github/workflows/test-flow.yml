@@ -56,7 +56,7 @@ jobs:
         env:
           BRANCH: ${{ github.event.pull_request.head.ref }}
           SHA: ${{ github.event.pull_request.head.sha }}
-          STATUS: ${{ needs.test.result == 'success' && ':eggplant::sweat_drops::sweat_drops:**passed**' || ':shit::shit::clown_face:**failed**' }}
+          STATUS: ${{ needs.test.result == 'success' && ':white_check_mark::eggplant::sweat_drops:**passed**' || ':boom::shit::clown_face:**failed**' }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
