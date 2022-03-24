@@ -17,7 +17,10 @@ jobs:
   ready-to-merge-flow:
     name: 'ready-to-merge flow'
     if: github.event.label.name == 'ready to merge'
-    uses: ./.github/workflows/merge-flow.yml
-    with:
-      target-branch: ${{ github.event.pull_request.base.ref }}
+    runs-on: ubuntu-latest
+    # uses: ./.github/workflows/merge-flow.yml
+    # with:
+    #   target-branch: ${{ github.event.pull_request.base.ref }}
+    steps:
+      - run: echo '${{ toJson(github.event) }}'
       
