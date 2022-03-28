@@ -1,13 +1,13 @@
 name: 'test flow'
 
 on:
-  pull_request_target:
-    branches:
-      - main
-      - dev
-    types:
-      - opened
-      - reopened
+  # pull_request_target:
+  #   branches:
+  #     - main
+  #     - dev
+  #   types:
+  #     - opened
+  #     - reopened
   workflow_call:
 
 jobs:
