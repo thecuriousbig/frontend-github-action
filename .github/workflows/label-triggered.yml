@@ -1,0 +1,23 @@
+name: 'label-triggered'
+
+on:
+  pull_request_target:
+    branches:
+      - dev
+      - main
+    types:
+      - labeled
+
+jobs:
+  ready-to-test-flow:
+    name: 'ready-to-test flow'
+    if: github.event.label.name == 'ready to test'
+    uses: ./.github/workflows/test-flow.yml
+
+  ready-to-merge-flow:
+    name: 'ready-to-merge flow'
+    if: github.event.label.name == 'ready to merge'
+    uses: ./.github/workflows/merge-flow.yml
+    with:
+      target-branch: ${{ github.event.pull_request.base.ref }}
+      

@@ -1,0 +1,34 @@
+name: 'trigger circleci'
+
+on:
+  workflow_call:
+    inputs:
+      workflows:
+        required: true
+        description: name of circleci workflows to be trigger
+        type: string
+    outputs:
+      response:
+        description: "The response from triggered circleci workflows"
+        value: ${{ jobs.trigger-circleci.outputs.trigger-response }}
+
+jobs:
+  trigger-circleci:
+    runs-on: ubuntu-latest
+    env:
+      CIRCLE_CI_TOKEN: ${{ secrets.CCI_TOKEN }}
+      ORG_NAME: ${{ env.ORG_NAME }}
+      REPO_NAME: ${{ env.REPO_NAME }}
+    outputs:
+      trigger-response: ${{ steps.call-circleci.outputs.response }}
+    steps:
+      - name: call circleci api
+        id: call-circleci
+        run: |
+          response=$(curl --request POST \
+            --url https://circleci.com/api/v2/project/vcs-slug/$ORG_NAME/$REPO_NAME/pipeline \
+            --header 'Circle-Token: $CIRCLE_CI_TOKEN' \
+            --header 'content-type: application/json' \
+            --data '{"parameters":{"run-workflows": ${{ inputs.workflows }} }}')
+          echo "::set-output name=response::$response"
+      # see https://github.com/Open-Source-Contrib/circle-ci-trigger-action to figure out how to output
