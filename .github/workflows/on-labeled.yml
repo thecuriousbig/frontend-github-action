@@ -1,0 +1,23 @@
+name: Trigger on PR labeled
+
+on:
+  pull_request_target:
+    branches:
+      - dev
+      - main
+    types:
+      - labeled
+
+jobs:
+  trigger-test:
+    name: trigger test
+    if: ${{ github.event.label.name == 'ready to test' }}
+    uses: ./.github/workflows/test.yml
+
+  trigger-merge:
+    name: trigger merge
+    if: ${{ github.event.label.name == 'ready to merge' }}
+    uses: ./.github/workflows/merge.yml
+    with:
+      target-branch: ${{ github.event.pull_request.base.ref }}
+      
