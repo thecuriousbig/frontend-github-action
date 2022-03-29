@@ -2,15 +2,6 @@ name: deploy
 
 on:
   workflow_call:
-    inputs:
-      target:
-        description: target branch to deploy
-        type: string
-        required: true
-    output:
-      deploy-status:
-        description: deployment status
-        value: ''
 
 env:
   # kslplus, kslplusstaging
