@@ -1,4 +1,4 @@
-name: Preview to Firebasse Hosting on PR
+name: Preview to Firebase Hosting on PR
 
 on:
   pull_request:
@@ -32,6 +32,7 @@ jobs:
             'merge failure'
 
   build_and_preview:
+    name: build and preview
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
