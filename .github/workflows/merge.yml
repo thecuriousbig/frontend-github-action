@@ -54,6 +54,26 @@ jobs:
     needs: validate-latest-tested-commit
     runs-on: ubuntu-latest
     steps:
-      - name: get mergeable
-        id: mergeable
+      - name: get satus checks
+        id: status-checks
+        uses: octokit/graphql-action@v2.x
+        with:
+          query: |
+            query getPRChecks($owner: String!, $repo: String!, $prnumber: Int!) {
+              repository(owner: $owner, repo: $repo) {
+                pullRequest(number: $prnumber) {
+                  baseRef {
+                    refUpdateRule {
+                      requiredStatusCheckContexts
+                    }
+                  }
+                }
+              }
+            }
+          owner: '${{ github.event.repository.owner.name }}'
+          repo: '${{ github.event.repository.name }}'
+          prnumber: '${{ github.event.pull_request.number }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo '${{ fromJSON(steps.status-checks.outputs.data) }}'
         
