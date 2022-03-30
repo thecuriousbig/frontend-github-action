@@ -47,8 +47,7 @@ jobs:
       - name: cancel workflow if fail
         if: ${{ steps.sha.outputs.match == "false" }}
         run: exit 1
-      
-
+  
   validate-github-checks:
     name: validate github checks
     needs: validate-latest-tested-commit
