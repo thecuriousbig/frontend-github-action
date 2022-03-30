@@ -31,7 +31,7 @@ jobs:
         id: sha
         run: |
           line="${{ steps.find-comment.outputs.comment-body }}"
-          (echo "$line" | grep -Eq "${{ github.event.pull_request.head.sha }}" && match="true" || match="false")
+          (echo "$line" | grep -Eq "${{ github.event.pull_request.head.sha }}" && match=true || match=false)
           echo "::set-output name=match::$match"
       - name: add comment if sha unmatch
         uses: peter-evans/create-or-update-comment@v2
