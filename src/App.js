@@ -20,7 +20,7 @@ function App() {
         >
           Learn React
         </a>
-        <p>feature/test-4</p>
+        <p>example string</p>
       </header>
     </div>
   );
