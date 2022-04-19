@@ -60,7 +60,7 @@ jobs:
         with:
           query: |
             query getPRChecks($owner: String!, $repo: String!, $prnumber: Int!) {
-              repository(owner: $owner, repo: $repo) {
+              repository(owner: $owner, name: $repo) {
                 pullRequest(number: $prnumber) {
                   baseRef {
                     refUpdateRule {
@@ -70,7 +70,7 @@ jobs:
                 }
               }
             }
-          owner: '${{ github.event.repository.owner.name }}'
+          owner: '${{ github.event.repository.owner.login }}'
           repo: '${{ github.event.repository.name }}'
           prnumber: '${{ github.event.pull_request.number }}'
         env:
