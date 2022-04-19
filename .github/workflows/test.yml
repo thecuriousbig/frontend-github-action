@@ -13,9 +13,9 @@ jobs:
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           labels: |
-            'ready to test'
-            'test success'
-            'test failure'
+            ready to test
+            test success
+            test failure
 
   test:
     name: run test
