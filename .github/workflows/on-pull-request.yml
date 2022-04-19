@@ -24,12 +24,12 @@ jobs:
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           labels: |
-            'ready to test'
-            'test success'
-            'test failure'
-            'ready to merge'
-            'merge success'
-            'merge failure'
+            ready to test
+            test success
+            test failure
+            ready to merge
+            merge success
+            merge failure
 
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
