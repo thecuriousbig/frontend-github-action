@@ -49,7 +49,7 @@ jobs:
         env:
           BRANCH: ${{ github.event.pull_request.head.ref }}
           SHA: ${{ github.event.pull_request.head.sha }}
-          STATUS: ${{ needs.test.result == 'success' && ':white_check_mark::eggplant::sweat_drops:**passed**' || ':boom::shit::clown_face:**failed**' }}
+          STATUS: ${{ needs.test.result == 'success' && '**passed**' || **failed**' }}
           REACTIONS: ${{ needs.test.result == 'success' && '+1, hooray' || '-1, eyes' }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
