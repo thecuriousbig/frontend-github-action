@@ -75,5 +75,5 @@ jobs:
           prnumber: '${{ github.event.pull_request.number }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo fromJSON(steps.status-checks.outputs.data)
+      - run: echo '${{ toJSON(steps.status-checks.outputs.data) }}'
         
