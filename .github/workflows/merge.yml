@@ -23,9 +23,9 @@ jobs:
         id: find-comment
         uses: peter-evans/find-comment@v2
         with:
-          issue_number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           comment-author: github-actions[bot]
-          body-includes: 'passed'
+          body-includes: '**passed**'
           direction: last
       - name: get commit sha
         id: sha
