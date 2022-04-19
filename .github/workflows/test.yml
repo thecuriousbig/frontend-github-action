@@ -39,6 +39,7 @@ jobs:
     name: log test result
     runs-on: ubuntu-latest
     needs: test
+    if: always()
     steps:
       - name: add test result label
         uses: actions-ecosystem/action-add-labels@v1
