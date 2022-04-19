@@ -36,7 +36,7 @@ jobs:
           echo "::set-output name=match::$match"
       - name: add comment if sha unmatch
         uses: peter-evans/create-or-update-comment@v2
-        if: ${{ steps.sha.outputs.match == false }}
+        if: ${{ steps.sha.outputs.match == 'false' }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: "Merge failed: Please run test on latest commit before merge"
@@ -46,7 +46,7 @@ jobs:
         with:
           labels: ready to merge
       - name: cancel workflow if fail
-        if: ${{ steps.sha.outputs.match == false }}
+        if: ${{ steps.sha.outputs.match == 'false' }}
         run: exit 1
   
   validate-github-checks:
