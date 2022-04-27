@@ -20,6 +20,7 @@ function App() {
         >
           Learn React
           A1
+          A2
         </a>
         <p>example string</p>
       </header>
