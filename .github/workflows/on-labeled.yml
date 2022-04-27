@@ -1,21 +1,21 @@
-name: Trigger on PR labeled
+name: Trigger label
 
 on:
   pull_request:
     branches:
       - dev
-      - main
     types:
       - labeled
 
 jobs:
-  trigger-test:
-    name: trigger test
-    if: ${{ github.event.label.name == 'ready to test' }}
-    uses: ./.github/workflows/test.yml
-
-  trigger-merge:
+  trigger_merge:
     name: trigger merge
     if: ${{ github.event.label.name == 'ready to merge' }}
     uses: ./.github/workflows/merge.yml
+  
+  trigger_merge_hotfix:
+    name: trigger merge hotfix
+    if: ${{ github.event.label.name == 'merge hotfix' }}
+    uses: ./.github/workflows/merge_hotfix.yml
+      
       
