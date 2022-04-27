@@ -1,0 +1,21 @@
+name: Trigger label
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - labeled
+
+jobs:
+  trigger_merge:
+    name: trigger merge
+    if: ${{ github.event.label.name == 'ready to merge' }}
+    uses: ./.github/workflows/merge.yml
+  
+  trigger_merge_hotfix:
+    name: trigger merge hotfix
+    if: ${{ github.event.label.name == 'merge hotfix' }}
+    uses: ./.github/workflows/merge_hotfix.yml
+      
+      

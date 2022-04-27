@@ -1,0 +1,147 @@
+name: merge
+
+on:
+  workflow_call:
+
+concurrency: merge_dev
+
+jobs:
+  check_approval:
+    name: check reviewer approval
+    runs-on: ubuntu-latest
+    steps:
+      - id: approved
+        uses: taichi/approved-event-action@v1.2.1
+        with:
+          approvals: '1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: comment approved failure
+        if: ${{ steps.approved.output.approved != 'true' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Please get PRs approved before deploy.
+          reactions: '-1'
+      - name: exit
+        if: ${{ steps.approved.output.approved != 'true' }}
+        run: exit 1
+  
+  rebase:
+    name: rebase
+    needs: check_approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
+      - id: automatic_rebase
+        uses: cirrus-actions/rebase@1.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # terminated if rebase failed.
+      - name: comment rebase failure
+        continue-on-error: true
+        if: ${{ job.steps.automatic_rebase.status == 'failure' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Rebase failed! Please resolved conflict before deploy.
+          reactions: '-1'
+  
+  test:
+    name: test
+    needs: [check_approval, rebase]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: install dependencies
+        run: npm install
+      - name: run test
+        id: test
+        run: npm run test
+        env:
+          CI: true
+      # terminated if test failed.
+      - name: comment test failure
+        continue-on-error: true
+        if: ${{ job.steps.test.status == 'failure' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Test failed! Please fixed test before deploy.
+          reactions: '-1'
+
+  merge:
+    name: merge
+    needs: [check_approval, rebase, test]
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+    - id: merge
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        target_branch: ${{ github.event.pull_request.base.ref }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    # terminated if test failed.
+    - name: comment merge failure
+      continue-on-error: true
+      if: ${{ job.steps.merge.status == 'failure' }}
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: Merge failed! Please try again.
+        reactions: '-1'
+  
+  deploy:
+    name: deploy
+    needs: [check_approval, rebase, test, merge]
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout base code
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.base.ref }}
+    - name: setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - name: build
+      run: npm ci --production && npm run build
+    - id: deploy
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      env:
+        PROJECT_ID: chatapptest-edd0d
+      with:
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        projectId: ${{ env.PROJECT_ID }}
+        channelId: live
+    # terminated if test failed.
+    - name: comment deploy failure
+      continue-on-error: true
+      if: ${{ job.steps.deploy.status == 'failure' }}
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: Deploy failed! Please try again.
+        reactions: '-1'
+
+  remove_label:
+    name: remove label
+    runs-on: ubuntu-latest
+    steps:
+      - name: remove ready_to_merge label
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: ready to merge
+      
