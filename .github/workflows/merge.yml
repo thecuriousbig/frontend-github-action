@@ -3,6 +3,8 @@ name: merge
 on:
   workflow_call:
 
+concurrency: merge_dev
+
 jobs:
   check_approval:
     name: check reviewer approval
