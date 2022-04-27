@@ -123,7 +123,7 @@ jobs:
         PROJECT_ID: chatapptest-edd0d
       with:
         repoToken: "${{ secrets.GITHUB_TOKEN }}"
-        firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHATAPPTEST_EDD0D }}"
+        firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
         projectId: ${{ env.PROJECT_ID }}
         channelId: live
     # terminated if test failed.
