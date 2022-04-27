@@ -6,7 +6,6 @@ on:
 jobs:
   merge:
     name: merge
-    needs: [check_approval, rebase, test]
     runs-on: ubuntu-latest
     steps:
     - name: checkout code
