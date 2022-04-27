@@ -6,28 +6,28 @@ on:
 concurrency: merge_dev
 
 jobs:
-  check_approval:
-    name: check reviewer approval
-    runs-on: ubuntu-latest
-    steps:
-      - id: approved
-        uses: taichi/approved-event-action@v1.2.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: comment approved failure
-        if: ${{ steps.approved.output.approved != 'true' }}
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: Please get PRs approved before deploy.
-          reactions: '-1'
-      - name: exit
-        if: ${{ steps.approved.output.approved != 'true' }}
-        run: exit 1
+  # check_approval:
+  #   name: check reviewer approval
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - id: approved
+  #       uses: taichi/approved-event-action@v1.2.1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: comment approved failure
+  #       if: ${{ steps.approved.output.approved != 'true' }}
+  #       uses: peter-evans/create-or-update-comment@v2
+  #       with:
+  #         issue-number: ${{ github.event.pull_request.number }}
+  #         body: Please get PRs approved before deploy.
+  #         reactions: '-1'
+  #     - name: exit
+  #       if: ${{ steps.approved.output.approved != 'true' }}
+  #       run: exit 1
   
   rebase:
     name: rebase
-    needs: check_approval
+    # needs: check_approval
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
