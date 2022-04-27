@@ -51,7 +51,7 @@ jobs:
   
   test:
     name: test
-    needs: [check_approval, rebase]
+    needs: [rebase]
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -79,7 +79,7 @@ jobs:
 
   merge:
     name: merge
-    needs: [check_approval, rebase, test]
+    needs: [rebase, test]
     runs-on: ubuntu-latest
     steps:
     - name: checkout code
@@ -102,7 +102,7 @@ jobs:
   
   deploy:
     name: deploy
-    needs: [check_approval, rebase, test, merge]
+    needs: [rebase, test, merge]
     runs-on: ubuntu-latest
     steps:
     - name: checkout base code
