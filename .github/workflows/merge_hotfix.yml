@@ -3,6 +3,10 @@ name: merge hotfix
 on:
   workflow_call:
 
+env:
+  PROJECT_ID: chatapptest-edd0d
+  FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
 jobs:
   merge:
     name: merge
@@ -43,11 +47,9 @@ jobs:
       run: npm ci --production && npm run build
     - id: deploy
       uses: FirebaseExtended/action-hosting-deploy@v0
-      env:
-        PROJECT_ID: chatapptest-edd0d
       with:
-        repoToken: "${{ secrets.GITHUB_TOKEN }}"
-        firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ env.FIREBASE_SERVICE_ACCOUNT }}
         projectId: ${{ env.PROJECT_ID }}
         channelId: live
     # terminated if test failed.
